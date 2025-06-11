@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Management Leadership Decision Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+
+        .option-button {
+            transition: all 0.2s ease;
+        }
+
+        .option-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-red-800 to-red-600 text-white p-6">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <div>
+                        <h1 class="text-2xl font-bold">Emergency Management Leadership Decision Tool</h1>
+                        <p class="text-red-100 mt-1">Determine when to lead vs. when to manage</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex border-b bg-gray-50">
+                <button id="assessment-tab" class="tab-button flex items-center space-x-2 px-6 py-3 font-medium bg-white border-b-2 border-red-600 text-red-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m15 9-6 6"></path>
+                        <path d="M9 9h.01"></path>
+                        <path d="M15 15h.01"></path>
+                    </svg>
+                    <span>Decision Assessment</span>
+                </button>
+                <button id="guide-tab" class="tab-button flex items-center space-x-2 px-6 py-3 font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span>Quick Reference</span>
+                </button>
+            </div>
+
+            <div class="p-6">
+                <!-- Assessment Tab Content -->
+                <div id="assessment-content" class="space-y-6">
+                    <!-- Progress Section -->
+                    <div id="progress-section">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="progress-bar" class="bg-red-700 h-2 rounded-full progress-bar" style="width: 20%"></div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <p id="progress-text" class="text-sm text-gray-600">Question 1 of 5</p>
+                        </div>
+                    </div>
+
+                    <!-- Question Section -->
+                    <div id="question-section" class="bg-gray-50 rounded-lg p-6 fade-in">
+                        <h3 id="question-text" class="text-xl font-semibold mb-4 text-gray-800">
+                            How well-defined is the problem?
+                        </h3>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Options will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="results-section" class="space-y-6" style="display: none;">
+                        <div class="text-center">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete</h2>
+                            <p class="text-gray-600">Based on your responses, here's our recommendation:</p>
+                        </div>
+
+                        <div id="recommendation-card" class="text-white rounded-lg p-6">
+                            <!-- Recommendation content will be populated by JavaScript -->
+                        </div>
+
+                        <div class="flex justify-center">
+                            <button id="reset-button" class="flex items-center space-x-2 px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                </svg>
+                                <span>Take Assessment Again</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Reference Tab Content -->
+                <div id="guide-content" class="space-y-6" style="display: none;">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Quick Reference Guide</h2>
+                        <p class="text-gray-600">Key characteristics of adaptive vs operational challenges</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                                <h3 class="text-xl font-semibold text-green-800">Adaptive Leadership</h3>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div>
+                                    <h4 class="font-semibold text-green-800">When to Use:</h4>
+                                    <ul class="list-disc list-inside text-green-700 mt-1 space-y-1">
+                                        <li>Problem is unclear or evolving</li>
+                                        <li>No proven solutions exist</li>
+                                        <li>Stakeholders have competing values</li>
+                                        <li>Requires behavioral/cultural change</li>
+                                        <li>High uncertainty and complexity</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-green-800">Key Approaches:</h4>
+                                    <ul class="list-disc list-inside text-green-700 mt-1 space-y-1">
+                                        <li>Engage stakeholders in problem definition</li>
+                                        <li>Experiment and learn from failures</li>
+                                        <li>Address underlying conflicts</li>
+                                        <li>Build adaptive capacity</li>
+                                        <li>Challenge assumptions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="m15 9-6 6"></path>
+                                    <path d="M9 9h.01"></path>
+                                    <path d="M15 15h.01"></path>
+                                </svg>
+                                <h3 class="text-xl font-semibold text-blue-800">Operational Management</h3>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div>
+                                    <h4 class="font-semibold text-blue-800">When to Use:</h4>
+                                    <ul class="list-disc list-inside text-blue-700 mt-1 space-y-1">
+                                        <li>Problem is well-defined</li>
+                                        <li>Proven solutions available</li>
+                                        <li>Clear authority and procedures</li>
+                                        <li>Stakeholders aligned</li>
+                                        <li>Execution-focused challenges</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-blue-800">Key Approaches:</h4>
+                                    <ul class="list-disc list-inside text-blue-700 mt-1 space-y-1">
+                                        <li>Execute established protocols</li>
+                                        <li>Coordinate resources efficiently</li>
+                                        <li>Monitor and control performance</li>
+                                        <li>Ensure compliance</li>
+                                        <li>Optimize existing processes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <h3 class="text-xl font-semibold text-orange-800">Mixed Situations</h3>
+                        </div>
+                        <p class="text-orange-700 text-sm">
+                            Many emergency management situations require both approaches. Start with operational management for immediate response, 
+                            then shift to adaptive leadership for complex, evolving challenges. Be prepared to move fluidly between both mindsets 
+                            as the situation develops.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentStep = 0;
+        let answers = {};
+        let showResult = false;
+        let activeTab = 'assessment';
+
+        // Decision Questions Data
+        const decisionQuestions = [
+            {
+                id: 'problem_clarity',
+                question: "How well-defined is the problem?",
+                options: [
+                    { value: 'technical', text: "Clear problem with known solutions", weight: 2 },
+                    { value: 'mixed', text: "Partially defined with some unknowns", weight: 1 },
+                    { value: 'adaptive', text: "Unclear or evolving situation", weight: 0 }
+                ]
+            },
+            {
+                id: 'solution_availability',
+                question: "Are proven solutions readily available?",
+                options: [
+                    { value: 'technical', text: "Yes, established protocols exist", weight: 2 },
+                    { value: 'mixed', text: "Some guidance exists but adaptation needed", weight: 1 },
+                    { value: 'adaptive', text: "No clear precedent or solutions", weight: 0 }
+                ]
+            },
+            {
+                id: 'stakeholder_alignment',
+                question: "How aligned are stakeholders on the approach?",
+                options: [
+                    { value: 'technical', text: "High alignment, clear roles", weight: 2 },
+                    { value: 'mixed', text: "Some disagreement or confusion", weight: 1 },
+                    { value: 'adaptive', text: "Major conflicts or competing priorities", weight: 0 }
+                ]
+            },
+            {
+                id: 'time_sensitivity',
+                question: "What is the urgency level?",
+                options: [
+                    { value: 'technical', text: "Immediate action required with clear steps", weight: 2 },
+                    { value: 'mixed', text: "Urgent but requires some deliberation", weight: 1 },
+                    { value: 'adaptive', text: "Complex timing considerations", weight: 0 }
+                ]
+            },
+            {
+                id: 'change_required',
+                question: "What level of organizational change is needed?",
+                options: [
+                    { value: 'technical', text: "Execute existing procedures", weight: 2 },
+                    { value: 'mixed', text: "Minor adjustments to standard approach", weight: 1 },
+                    { value: 'adaptive', text: "Significant behavioral or system changes", weight: 0 }
+                ]
+            }
+        ];
+
+        // Recommendation Logic
+        function getRecommendation() {
+            const totalWeight = Object.values(answers).reduce((sum, val) => sum + val, 0);
+            const maxWeight = decisionQuestions.length * 2;
+            const percentage = (totalWeight / maxWeight) * 100;
+
+            if (percentage >= 70) {
+                return {
+                    type: 'Operational Management',
+                    color: 'bg-blue-500',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <path d="m15 9-6 6"></path>
+                              <path d="M9 9h.01"></path>
+                              <path d="M15 15h.01"></path>
+                          </svg>`,
+                    description: 'This situation requires operational management approaches with clear execution of established procedures.',
+                    actions: [
+                        'Execute established protocols and procedures',
+                        'Coordinate resources efficiently',
+                        'Monitor progress against clear metrics',
+                        'Ensure compliance with regulations',
+                        'Focus on operational excellence'
+                    ]
+                };
+            } else if (percentage >= 40) {
+                return {
+                    type: 'Mixed Approach',
+                    color: 'bg-orange-500',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                          </svg>`,
+                    description: 'This situation requires both operational management and adaptive leadership elements.',
+                    actions: [
+                        'Balance structure with flexibility',
+                        'Engage stakeholders in problem-solving',
+                        'Adapt procedures as situation evolves',
+                        'Build consensus while maintaining direction',
+                        'Monitor for emerging challenges'
+                    ]
+                };
+            } else {
+                return {
+                    type: 'Adaptive Leadership',
+                    color: 'bg-green-500',
+                    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                          </svg>`,
+                    description: 'This situation requires adaptive leadership to navigate uncertainty and drive change.',
+                    actions: [
+                        'Engage stakeholders in defining the challenge',
+                        'Experiment with potential solutions',
+                        'Build adaptive capacity in the organization',
+                        'Address underlying conflicts and values',
+                        'Learn and adjust approach continuously'
+                    ]
+                };
+            }
+        }
+
+        // UI Functions
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const percentage = ((currentStep + 1) / decisionQuestions.length) * 100;
+            
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Question ${currentStep + 1} of ${decisionQuestions.length}`;
+        }
+
+        function renderQuestion() {
+            const question = decisionQuestions[currentStep];
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            
+            questionText.textContent = question.question;
+            
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button w-full text-left p-4 bg-white border border-gray-200 rounded-lg hover:border-red-600 hover:bg-red-50 transition-colors';
+                button.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium">${option.text}</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                `;
+                button.onclick = () => handleAnswer(question.id, option.value, option.weight);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function showResults() {
+            document.getElementById('progress-section').style.display = 'none';
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+            
+            const recommendation = getRecommendation();
+            const recommendationCard = document.getElementById('recommendation-card');
+            
+            recommendationCard.className = `${recommendation.color} text-white rounded-lg p-6`;
+            recommendationCard.innerHTML = `
+                <div class="flex items-center space-x-3 mb-4">
+                    ${recommendation.icon}
+                    <h3 class="text-xl font-bold">${recommendation.type}</h3>
+                </div>
+                <p class="mb-4 text-red-100">${recommendation.description}</p>
+                <div>
+                    <h4 class="font-semibold mb-2">Recommended Actions:</h4>
+                    <ul class="space-y-1">
+                        ${recommendation.actions.map(action => `
+                            <li class="flex items-center space-x-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm">${action}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function resetAssessment() {
+            currentStep = 0;
+            answers = {};
+            showResult = false;
+            
+            document.getElementById('progress-section').style.display = 'block';
+            document.getElementById('question-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            
+            updateProgress();
+            renderQuestion();
+        }
+
+        function handleAnswer(questionId, value, weight) {
+            answers[questionId] = weight;
+            
+            if (currentStep < decisionQuestions.length - 1) {
+                currentStep++;
+                updateProgress();
+                renderQuestion();
+            } else {
+                showResult = true;
+                showResults();
+            }
+        }
+
+        function switchTab(tabName) {
+            activeTab = tabName;
+            
+            // Update tab buttons
+            const assessmentTab = document.getElementById('assessment-tab');
+            const guideTab = document.getElementById('guide-tab');
+            
+            if (tabName === 'assessment') {
+                assessmentTab.className = 'tab-button flex items-center space-x-2 px-6 py-3 font-medium bg-white border-b-2 border-red-600 text-red-700';
+                guideTab.className = 'tab-button flex items-center space-x-2 px-6 py-3 font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100';
+                document.getElementById('assessment-content').style.display = 'block';
+                document.getElementById('guide-content').style.display = 'none';
+            } else {
+                assessmentTab.className = 'tab-button flex items-center space-x-2 px-6 py-3 font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100';
+                guideTab.className = 'tab-button flex items-center space-x-2 px-6 py-3 font-medium bg-white border-b-2 border-red-600 text-red-700';
+                document.getElementById('assessment-content').style.display = 'none';
+                document.getElementById('guide-content').style.display = 'block';
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the application
+            updateProgress();
+            renderQuestion();
+            
+            // Tab event listeners
+            document.getElementById('assessment-tab').onclick = () => switchTab('assessment');
+            document.getElementById('guide-tab').onclick = () => switchTab('guide');
+            
+            // Reset button event listener
+            document.getElementById('reset-button').onclick = resetAssessment;
+        });
+    </script>
+</body>
+</html>
