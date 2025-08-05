@@ -1,0 +1,328 @@
+<div id="mindset-tool" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: white;">
+  <div id="app-container">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <h1 style="font-size: 2rem; font-weight: bold; color: #111827; margin-bottom: 1rem;">
+        Individual-to-Team Mindset Decision Tree
+      </h1>
+      <p style="font-size: 1.125rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
+        Navigate complex leadership scenarios and discover when to apply individual expertise versus team development approaches.
+      </p>
+    </div>
+
+    <div id="scenario-selection" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+      <div class="scenario-card" data-scenario="A" style="padding: 1.5rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; background: white;">
+        <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.5rem; margin-right: 0.75rem;">⚠️</span>
+          <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin: 0;">Scenario A</h3>
+        </div>
+        <h4 style="font-weight: 500; color: #111827; margin-bottom: 0.5rem;">Emergency Coordination Crisis</h4>
+        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 0.75rem;">During a multi-agency emergency drill, you notice significant coordination problems between fire, police, and medical teams.</p>
+        <div style="font-size: 0.75rem; color: #3b82f6; font-weight: 500;">Multi-agency emergency response drill</div>
+      </div>
+
+      <div class="scenario-card" data-scenario="B" style="padding: 1.5rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; background: white;">
+        <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.5rem; margin-right: 0.75rem;">👤</span>
+          <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin: 0;">Scenario B</h3>
+        </div>
+        <h4 style="font-weight: 500; color: #111827; margin-bottom: 0.5rem;">New Team Member Struggles</h4>
+        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 0.75rem;">A recently hired emergency responder is having difficulty with standard operating procedures.</p>
+        <div style="font-size: 0.75rem; color: #3b82f6; font-weight: 500;">Team development and training</div>
+      </div>
+
+      <div class="scenario-card" data-scenario="C" style="padding: 1.5rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s; background: white;">
+        <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.5rem; margin-right: 0.75rem;">📈</span>
+          <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin: 0;">Scenario C</h3>
+        </div>
+        <h4 style="font-weight: 500; color: #111827; margin-bottom: 0.5rem;">Critical System Failure</h4>
+        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 0.75rem;">The primary communication system has failed during an active incident response.</p>
+        <div style="font-size: 0.75rem; color: #3b82f6; font-weight: 500;">Technical crisis during active response</div>
+      </div>
+    </div>
+
+    <div id="assessment-container" style="display: none;">
+      <div id="progress-section" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 id="scenario-title" style="font-size: 1.5rem; font-weight: bold; color: #111827; margin: 0;"></h2>
+          <span id="progress-text" style="font-size: 0.875rem; color: #6b7280;"></span>
+        </div>
+        <div style="width: 100%; background: #e5e7eb; border-radius: 9999px; height: 0.5rem; margin-bottom: 1rem;">
+          <div id="progress-bar" style="background: #3b82f6; height: 100%; border-radius: 9999px; width: 0%; transition: width 0.3s;"></div>
+        </div>
+        <div id="scenario-context" style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 0.5rem;"></div>
+      </div>
+
+      <div id="question-container" style="background: white; border: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 0.5rem;">
+        <h3 id="question-title" style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;"></h3>
+        <p id="question-text" style="color: #6b7280; margin-bottom: 1.5rem;"></p>
+        <div id="options-container"></div>
+      </div>
+
+      <div id="back-section" style="text-align: center; margin-top: 1.5rem; display: none;">
+        <a href="#" id="back-button" style="color: #3b82f6; text-decoration: none; font-size: 0.875rem;">← Go back to previous question</a>
+      </div>
+    </div>
+
+    <div id="feedback-container" style="display: none;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 id="feedback-title" style="font-size: 1.5rem; font-weight: bold; color: #111827; margin-bottom: 0.5rem;">Assessment Complete</h2>
+        <p id="feedback-scenario" style="color: #6b7280;"></p>
+      </div>
+
+      <div id="recommendation-box" style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+          <span id="recommendation-icon" style="font-size: 2rem; margin-right: 0.75rem;"></span>
+          <h3 id="recommendation-title" style="font-size: 1.25rem; font-weight: 600; margin: 0;"></h3>
+        </div>
+        <p id="recommendation-description" style="color: #374151; margin: 0;"></p>
+      </div>
+
+      <div id="decision-path" style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Your Decision Path:</h3>
+        <div id="path-container"></div>
+      </div>
+
+      <div style="text-align: center;">
+        <button id="new-scenario-btn" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; margin: 0.5rem;">Try Another Scenario</button>
+        <button id="restart-btn" style="padding: 0.75rem 1.5rem; background: white; color: #374151; border: 1px solid #d1d5db; border-radius: 0.5rem; font-weight: 500; cursor: pointer; margin: 0.5rem;">Restart This Scenario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const scenarios = {
+    A: {
+      title: "Emergency Coordination Crisis",
+      description: "During a multi-agency emergency drill, you notice significant coordination problems between fire, police, and medical teams. Communication is breaking down, resources are being duplicated, and response times are suffering.",
+      context: "Multi-agency emergency response drill"
+    },
+    B: {
+      title: "New Team Member Struggles", 
+      description: "A recently hired emergency responder is having difficulty with standard operating procedures. They're competent but seem overwhelmed by the complexity of coordinated response protocols.",
+      context: "Team development and training"
+    },
+    C: {
+      title: "Critical System Failure",
+      description: "The primary communication system has failed during an active incident response. Teams are scattered, and you have the technical expertise to fix it quickly, but it would take you away from coordinating the overall response.",
+      context: "Technical crisis during active response"
+    }
+  };
+
+  const questions = {
+    challenge: {
+      title: "Challenge Type Assessment",
+      question: "What is the primary challenge facing you in this situation?",
+      options: [
+        { id: 'technical', text: "Technical problem requiring specific expertise", mindset: 'individual', explanation: "This suggests an individual contributor approach may be most effective initially." },
+        { id: 'coordination', text: "Coordination challenge involving multiple people/teams", mindset: 'team', explanation: "This indicates a team leader approach would be more appropriate." },
+        { id: 'capability', text: "Capability development need across the organization", mindset: 'team', explanation: "This clearly calls for a team leader mindset focused on building others." }
+      ]
+    },
+    success: {
+      title: "Success Definition Assessment", 
+      question: "What would success look like in this scenario?",
+      options: [
+        { id: 'efficient', text: "Problem solved efficiently with minimal disruption", mindset: 'individual', explanation: "Focusing on efficiency often favors individual expertise application." },
+        { id: 'capability', text: "Team capability improved for future similar situations", mindset: 'team', explanation: "This outcome requires a team leader approach to develop others." },
+        { id: 'sustainable', text: "Sustainable solution that doesn't depend on your direct involvement", mindset: 'team', explanation: "Sustainable solutions require building team capabilities and systems." }
+      ]
+    },
+    timeframe: {
+      title: "Time Horizon Assessment",
+      question: "What are the time constraints and broader implications?", 
+      options: [
+        { id: 'immediate', text: "Immediate solution needed - you have clear expertise to resolve it", mindset: 'individual', explanation: "Urgent situations with clear expertise may warrant individual action." },
+        { id: 'longterm', text: "Long-term capability building is more important than immediate fix", mindset: 'team', explanation: "Long-term thinking favors developing team capabilities." },
+        { id: 'recurring', text: "This is a recurring issue requiring sustainable solution", mindset: 'team', explanation: "Recurring problems need team-based solutions to prevent future occurrences." }
+      ]
+    }
+  };
+
+  let currentScenario = null;
+  let responses = {};
+  let currentQuestionIndex = 0;
+  const questionKeys = Object.keys(questions);
+
+  // Add hover effects
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.scenario-card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.borderColor = '#3b82f6';
+        this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.borderColor = '#e5e7eb';
+        this.style.boxShadow = 'none';
+      });
+      card.addEventListener('click', function() {
+        startScenario(this.dataset.scenario);
+      });
+    });
+  });
+
+  function startScenario(scenarioKey) {
+    currentScenario = scenarioKey;
+    responses = {};
+    currentQuestionIndex = 0;
+    
+    document.getElementById('scenario-selection').style.display = 'none';
+    document.getElementById('assessment-container').style.display = 'block';
+    document.getElementById('feedback-container').style.display = 'none';
+    
+    document.getElementById('scenario-title').textContent = `Scenario ${scenarioKey}: ${scenarios[scenarioKey].title}`;
+    document.getElementById('scenario-context').textContent = scenarios[scenarioKey].description;
+    
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const questionKey = questionKeys[currentQuestionIndex];
+    const question = questions[questionKey];
+    
+    document.getElementById('progress-text').textContent = `Question ${currentQuestionIndex + 1} of ${questionKeys.length}`;
+    document.getElementById('progress-bar').style.width = `${(currentQuestionIndex / questionKeys.length) * 100}%`;
+    
+    document.getElementById('question-title').textContent = question.title;
+    document.getElementById('question-text').textContent = question.question;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+    
+    question.options.forEach(option => {
+      const button = document.createElement('button');
+      button.style.cssText = `
+        width: 100%;
+        text-align: left;
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      `;
+      button.innerHTML = `
+        <span>${option.text}</span>
+        <span style="color: #6b7280;">→</span>
+      `;
+      button.addEventListener('mouseenter', function() {
+        this.style.borderColor = '#3b82f6';
+        this.style.background = '#eff6ff';
+      });
+      button.addEventListener('mouseleave', function() {
+        this.style.borderColor = '#e5e7eb';
+        this.style.background = 'white';
+      });
+      button.addEventListener('click', function() {
+        handleResponse(questionKey, option);
+      });
+      optionsContainer.appendChild(button);
+    });
+
+    document.getElementById('back-section').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+  }
+
+  function handleResponse(questionKey, option) {
+    responses[questionKey] = option;
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= questionKeys.length) {
+      showFeedback();
+    } else {
+      showQuestion();
+    }
+  }
+
+  function showFeedback() {
+    document.getElementById('assessment-container').style.display = 'none';
+    document.getElementById('feedback-container').style.display = 'block';
+    
+    document.getElementById('feedback-scenario').textContent = scenarios[currentScenario].title;
+    
+    const responseArray = Object.values(responses);
+    const individualCount = responseArray.filter(r => r.mindset === 'individual').length;
+    const teamCount = responseArray.filter(r => r.mindset === 'team').length;
+    
+    let recommendation;
+    if (teamCount > individualCount) {
+      recommendation = {
+        icon: '👥',
+        title: 'Team Leader Approach',
+        description: 'Your responses indicate this situation calls for a team leader mindset. Focus on developing others, building sustainable systems, and coordinating collective action.'
+      };
+    } else if (individualCount > teamCount) {
+      recommendation = {
+        icon: '👤', 
+        title: 'Individual Contributor Approach',
+        description: 'Your responses suggest an individual contributor approach may be most effective here. Apply your expertise directly while looking for opportunities to transition to team development.'
+      };
+    } else {
+      recommendation = {
+        icon: '📈',
+        title: 'Hybrid Approach', 
+        description: 'Your responses indicate a balanced approach. Consider starting with individual action for immediate needs, then shifting to team development for long-term sustainability.'
+      };
+    }
+    
+    document.getElementById('recommendation-icon').textContent = recommendation.icon;
+    document.getElementById('recommendation-title').textContent = recommendation.title;
+    document.getElementById('recommendation-description').textContent = recommendation.description;
+    
+    const pathContainer = document.getElementById('path-container');
+    pathContainer.innerHTML = '';
+    
+    Object.entries(questions).forEach(([key, question]) => {
+      const response = responses[key];
+      if (!response) return;
+      
+      const pathItem = document.createElement('div');
+      pathItem.style.cssText = `
+        background: #f9fafb;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+      `;
+      pathItem.innerHTML = `
+        <h4 style="font-weight: 500; color: #111827; margin-bottom: 0.5rem;">${question.title}</h4>
+        <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem;">${question.question}</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <span style="color: #1d4ed8; font-weight: 500;">${response.text}</span>
+          <span style="padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; ${response.mindset === 'team' ? 'background: #dcfce7; color: #166534;' : 'background: #dbeafe; color: #1e40af;'}">${response.mindset === 'team' ? 'Team Leader' : 'Individual Contributor'}</span>
+        </div>
+        <p style="font-size: 0.875rem; color: #6b7280;">${response.explanation}</p>
+      `;
+      pathContainer.appendChild(pathItem);
+    });
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('back-button').addEventListener('click', function(e) {
+      e.preventDefault();
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        const lastKey = questionKeys[currentQuestionIndex];
+        delete responses[lastKey];
+        showQuestion();
+      }
+    });
+
+    document.getElementById('new-scenario-btn').addEventListener('click', function() {
+      document.getElementById('scenario-selection').style.display = 'grid';
+      document.getElementById('assessment-container').style.display = 'none';
+      document.getElementById('feedback-container').style.display = 'none';
+    });
+
+    document.getElementById('restart-btn').addEventListener('click', function() {
+      startScenario(currentScenario);
+    });
+  });
+})();
+</script>
